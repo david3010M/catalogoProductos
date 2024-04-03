@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria;
 use Illuminate\Http\Request;
 
-class CategoriaController extends Controller
+class HomeController extends Controller
 {
+
+    public function __invoke()
+    {
+        return view('home');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categorias = Categoria::all();
-        return $categorias;
-        return view('categorias.index', compact('categorias'));
+        return 'Hello World!';
     }
 
     /**
@@ -22,7 +25,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        return view('categorias.create');
+        //
     }
 
     /**
@@ -38,8 +41,7 @@ class CategoriaController extends Controller
      */
     public function show(string $id)
     {
-        $categoria = Categoria::findOrFail($id);
-        return view('categorias.show', compact('categoria'));
+        //
     }
 
     /**

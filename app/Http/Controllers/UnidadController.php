@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unidad;
 use Illuminate\Http\Request;
 
 class UnidadController extends Controller
@@ -11,7 +12,8 @@ class UnidadController extends Controller
      */
     public function index()
     {
-        //
+        $unidades = Unidad::all();
+        return view('unidades.index', compact('unidades'));
     }
 
     /**
@@ -19,7 +21,7 @@ class UnidadController extends Controller
      */
     public function create()
     {
-        //
+        return view('unidades.create');
     }
 
     /**
@@ -35,7 +37,8 @@ class UnidadController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $unidad = Unidad::findOrFail($id);
+        return view('unidades.show', compact('unidad'));
     }
 
     /**

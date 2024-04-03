@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_unidad', function (Blueprint $table) {
+        Schema::create('unidads', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion');
             $table->string('abreviatura');
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_unidad');
+        Schema::dropIfExists('unidads');
     }
 };

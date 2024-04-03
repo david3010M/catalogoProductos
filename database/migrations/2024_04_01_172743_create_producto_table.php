@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_producto', function (Blueprint $table) {
+        Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->unsignedBigInteger('categoria_id');
@@ -22,9 +22,9 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign keys
-            $table->foreign('categoria_id')->references('id')->on('tb_categoria');
-            $table->foreign('marca_id')->references('id')->on('tb_marca');
-            $table->foreign('unidad_id')->references('id')->on('tb_unidad');
+            $table->foreign('categoria_id')->references('id')->on('categorias');
+            $table->foreign('marca_id')->references('id')->on('marcas');
+            $table->foreign('unidad_id')->references('id')->on('unidads');
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('producto');
+        Schema::dropIfExists('productos');
     }
 };

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -11,7 +12,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Producto::all();
+        return view('productos.index', compact('productos'));
     }
 
     /**
@@ -19,7 +21,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        return view('productos.create');
     }
 
     /**
@@ -35,7 +37,8 @@ class ProductoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        return view('productos.show', compact('producto'));
     }
 
     /**
