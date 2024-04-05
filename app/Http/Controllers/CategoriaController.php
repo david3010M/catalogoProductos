@@ -12,8 +12,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::all();
-        return $categorias;
+        $categorias = Categoria::paginate(10);
         return view('categorias.index', compact('categorias'));
     }
 
@@ -30,7 +29,18 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validar los datos
+        $request->validate([
+            'descripcion' => 'required|string|max:255|unique:categorias',
+        ]);
+
+        // Crear el objeto Marca
+        $categoria = new Categoria();
+        $categoria->descripcion = $request->descripcion;
+
+        $categoria->save();
+
+        return redirect()->route('categorias.index')->with('message', 'Categoría creada correctamente')->with('action', 'success');
     }
 
     /**
@@ -47,7 +57,8 @@ class CategoriaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categoria = Categoria::findOrFail($id);
+        return view('categorias.update', compact('categoria'));
     }
 
     /**
@@ -55,7 +66,23 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'descripcion' => 'required|string|max:255|unique:categorias,descripcion,' . $id,
+        ]);
+
+        // Crear el objeto Marca
+        $categoria = Categoria::findOrFail($id);
+        $categoria->descripcion = $request->descripcion;
+
+        $categoria->update();
+
+        return redirect()->route('categorias.index')->with('message', 'Categoría actualizada correctamente')->with('action', 'success');
+    }
+
+    public function delete(string $id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        return view('categorias.delete', compact('categoria'));
     }
 
     /**
@@ -63,6 +90,12 @@ class CategoriaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $categoria = Categoria::findOrFail($id);
+        try {
+            $categoria->delete();
+        } catch (\Exception $e) {
+            return redirect()->route('categorias.index')->with('message', 'No se puede eliminar la categoria porque tiene productos asociados.')->with('action', 'error');
+        }
+        return redirect()->route('categorias.index')->with('message', 'Categoria eliminada correctamente')->with('action', 'deleted');
     }
 }

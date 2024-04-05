@@ -13,7 +13,7 @@
 <body>
     @include('layouts.menu')
     <div class="h-screen w-screen flex justify-center sm:pl-60">
-        <div class="max-w-screen-xl w-full">
+        <div class="max-w-screen-lg w-full">
             <div class="p-4 flex justify-center">
                 @yield('content')
             </div>

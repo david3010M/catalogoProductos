@@ -12,9 +12,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        $marcas = Marca::all();
-
-        return $marcas;
+        $marcas = Marca::paginate(10);
         return view('marcas.index', compact('marcas'));
     }
 
@@ -33,8 +31,18 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        Marca::create($request->all());
-        return redirect()->route('marcas.index');
+        // Validar los datos
+        $request->validate([
+            'descripcion' => 'required|string|max:255|unique:marcas',
+        ]);
+
+        // Crear el objeto Marca
+        $marca = new Marca();
+        $marca->descripcion = $request->descripcion;
+
+        $marca->save();
+
+        return redirect()->route('marcas.index')->with('message', 'Marca creada correctamente')->with('action', 'success');
     }
 
 
@@ -54,7 +62,7 @@ class MarcaController extends Controller
     public function edit($id)
     {
         $marca = Marca::findOrFail($id);
-        return view('marcas.edit', compact('marca'));
+        return view('marcas.update', compact('marca'));
     }
 
 
@@ -63,11 +71,25 @@ class MarcaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validar los datos
+        $request->validate([
+            'descripcion' => 'required|string|max:255|unique:marcas,descripcion,' . $id,
+        ]);
+
+        // Modificar el objeto Marca
         $marca = Marca::findOrFail($id);
-        $marca->update($request->all());
-        return redirect()->route('marcas.index');
+        $marca->descripcion = $request->descripcion;
+
+        $marca->update();
+        return redirect()->route('marcas.index')->with('message', 'Marca actualizada correctamente')->with('action', 'success');
     }
 
+
+    public function delete($id)
+    {
+        $marca = Marca::findOrFail($id);
+        return view('marcas.delete', compact('marca'));
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -75,7 +97,11 @@ class MarcaController extends Controller
     public function destroy($id)
     {
         $marca = Marca::findOrFail($id);
-        $marca->delete();
-        return redirect()->route('marcas.index');
+        try {
+            $marca->delete();
+        } catch (\Exception $e) {
+            return redirect()->route('marcas.index')->with('message', 'No se puede eliminar la marca porque tiene productos asociados.')->with('action', 'error');
+        }
+        return redirect()->route('marcas.index')->with('message', 'Marca eliminada correctamente')->with('action', 'deleted');
     }
 }

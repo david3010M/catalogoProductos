@@ -3,13 +3,13 @@
 @section('title', 'Productos')
 
 @section('content')
+
     <div class="flex flex-col gap-6 w-full">
         <div class="flex justify-between">
             <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">Productos</h1>
             <a class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-slate-700 rounded-lg hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800"
                 href="{{ route('productos.create') }}">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                    class="sm:w-6 sm:h-6 w-5 h-5 mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
                     <path fill-rule="evenodd"
                         d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
                         clip-rule="evenodd" />
@@ -53,7 +53,7 @@
                             <td class="px-6 py-4 text-right text-nowrap">
                                 {{ $producto->precio_venta }}
                             </td>
-                            <td class="px-6 py-4 text-right text-nowrap flex justify-around">
+                            <td class="px-6 py-4 gap-2 text-right text-nowrap flex justify-around">
                                 <a href="{{ route('productos.show', $producto->id) }}"
                                     class="font-medium text-gray-400 dark:text-gray-400 hover:text-blue-600 hover:underline">Ver</a>
                                 <a href="#"
@@ -69,8 +69,5 @@
 
         {{ $productos->links() }}
     </div>
-
-
-
 
 @endsection
