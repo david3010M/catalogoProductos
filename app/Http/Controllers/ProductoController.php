@@ -15,8 +15,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::paginate(10);
-        // return $productos;
+        $productos = Producto::orderBy('created_at', 'desc')->paginate(10);
         return view('productos.index', compact('productos'));
     }
 
@@ -38,12 +37,12 @@ class ProductoController extends Controller
     {
         // Validar el formulario
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255|unique:productos',
             'categoria_id' => 'required|exists:categorias,id',
             'marca_id' => 'required|exists:marcas,id',
-            'unidad_id' => 'required|exists:unidades_de_medida,id',
-            'precio_compra' => 'required|numeric|min:0',
-            'precio_venta' => 'required|numeric|min:0',
+            'unidad_id' => 'required|exists:unidads,id',
+            'precio_compra' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+            'precio_venta' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
         ], [
             'categoria_id.exists' => 'La categoría seleccionada no es válida.',
             'marca_id.exists' => 'La marca seleccionada no es válida.',
@@ -55,15 +54,15 @@ class ProductoController extends Controller
         $producto->nombre = $request->nombre;
         $producto->categoria_id = $request->categoria_id;
         $producto->marca_id = $request->marca_id;
-        $producto->unidad_sid = $request->unidad_id;
+        $producto->unidad_id = $request->unidad_id;
         $producto->precio_compra = $request->precio_compra;
         $producto->precio_venta = $request->precio_venta;
 
-        return $producto;
+        // return $producto;
         $producto->save();
 
         // Redireccionar con mensaje de éxito
-        return redirect()->route('productos.index')->with('mensaje', 'Producto creado exitosamente');
+        return redirect()->route('productos.index')->with('message', 'Producto creado correctamente')->with('action', 'success');
     }
 
     /**
@@ -71,8 +70,12 @@ class ProductoController extends Controller
      */
     public function show(string $id)
     {
+        $categorias = Categoria::all();
+        $marcas = Marca::all();
+        $unidades = Unidad::all();
         $producto = Producto::findOrFail($id);
-        return view('productos.show', compact('producto'));
+        $producto = Producto::findOrFail($id);
+        return view('productos.show', compact('producto', 'categorias', 'marcas', 'unidades'));
     }
 
     /**
@@ -80,7 +83,11 @@ class ProductoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categorias = Categoria::all();
+        $marcas = Marca::all();
+        $unidades = Unidad::all();
+        $producto = Producto::findOrFail($id);
+        return view('productos.update', compact('producto', 'categorias', 'marcas', 'unidades'));
     }
 
     /**
@@ -88,7 +95,38 @@ class ProductoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validar el formulario
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:productos,nombre,' . $id,
+            'categoria_id' => 'required|exists:categorias,id',
+            'marca_id' => 'required|exists:marcas,id',
+            'unidad_id' => 'required|exists:unidads,id',
+            'precio_compra' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+            'precio_venta' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+        ], [
+            'categoria_id.exists' => 'La categoría seleccionada no es válida.',
+            'marca_id.exists' => 'La marca seleccionada no es válida.',
+            'unidad_id.exists' => 'La unidad de medida seleccionada no es válida.',
+        ]);
+
+        // Modificar el objeto Marca
+        $producto = Producto::findOrFail($id);
+        $producto->nombre = $request->nombre;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->marca_id = $request->marca_id;
+        $producto->unidad_id = $request->unidad_id;
+        $producto->precio_compra = $request->precio_compra;
+        $producto->precio_venta = $request->precio_venta;
+
+        $producto->update();
+        return redirect()->route('productos.index')->with('message', 'Producto actualizado correctamente')->with('action', 'success');
+    }
+
+
+    public function delete(string $id)
+    {
+        $producto = Producto::findOrFail($id);
+        return view('productos.delete', compact('producto'));
     }
 
     /**
@@ -96,6 +134,12 @@ class ProductoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        try {
+            $producto->delete();
+        } catch (\Exception $e) {
+            return redirect()->route('productos.index')->with('message', 'No se puede eliminar el producto.')->with('action', 'error');
+        }
+        return redirect()->route('productos.index')->with('message', 'Producto eliminado correctamente')->with('action', 'deleted');
     }
 }

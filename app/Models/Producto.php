@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use NumberFormatter;
 
 class Producto extends Model
 {
@@ -22,5 +23,15 @@ class Producto extends Model
     public function unidad()
     {
         return $this->belongsTo(Unidad::class);
+    }
+
+    public function getPrecioVentaFormatoAttribute()
+    {
+        return 'S/ ' . number_format($this->precio_venta, 2);
+    }
+
+    public function getPrecioCompraFormatoAttribute()
+    {
+        return 'S/ ' . number_format($this->precio_compra, 2);
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // Home
-Route::get('/', HomeController::class);
+Route::get('/', [ProductoController::class, 'index'])->name('productos.index');
 
 // Marcas
 Route::get('marcas', [MarcaController::class, 'index'])->name('marcas.index');

@@ -12,7 +12,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        $marcas = Marca::paginate(10);
+        $marcas = Marca::orderBy('created_at', 'desc')->paginate(10);
         return view('marcas.index', compact('marcas'));
     }
 
