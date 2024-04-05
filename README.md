@@ -22,7 +22,7 @@ Este repositorio contiene un esqueleto básico para un proyecto Laravel que util
     composer install
     ```
 
-4. Copia el archivo de configuración `.env.example` y créalo como `.env`:
+4. Copiar el archivo de configuración `.env.example` y crearlo como `.env`, después de ello configurar los campos de la conexión la base de datos, DB_USERNAME y DB_PASSWORD:
 
     ```bash
     cp .env.example .env
@@ -57,6 +57,5 @@ php artisan serve
 Para probar con datos:
 
 ```bash
-php artisan migrate
-php artisan db:seed
+php artisan migrate:fresh --seed
 ```
