@@ -52,3 +52,11 @@ Para iniciar el servidor de desarrollo de Laravel:
 
 ```bash
 php artisan serve
+```
+
+Para probar con datos:
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
