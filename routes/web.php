@@ -12,21 +12,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class);
 
 // Marcas
-Route::get('marcas', [MarcaController::class, 'index']);
-Route::get('marcas/create', [MarcaController::class, 'create']);
-Route::get('marcas/{marca}', [MarcaController::class, 'show']);
+Route::get('marcas', [MarcaController::class, 'index'])->name('marcas.index');
+Route::get('marcas/create', [MarcaController::class, 'create'])->name('marcas.create');
+Route::get('marcas/{id}', [MarcaController::class, 'show'])->name('marcas.show');
 
 // Categorias
-Route::get('categorias', [CategoriaController::class, 'index']);
-Route::get('categorias/create', [CategoriaController::class, 'create']);
-Route::get('categorias/{categoria}', [CategoriaController::class, 'show']);
+Route::get('categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+Route::get('categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
+Route::get('categorias/{id}', [CategoriaController::class, 'show'])->name('categorias.show');
 
 // Unidades
-Route::get('unidades', [UnidadController::class, 'index']);
-Route::get('unidades/create', [UnidadController::class, 'create']);
-Route::get('unidades/{unidad}', [UnidadController::class, 'show']);
+Route::get('unidades', [UnidadController::class, 'index'])->name('unidades.index');
+Route::get('unidades/create', [UnidadController::class, 'create'])->name('unidades.create');
+Route::get('unidades/{id}', [UnidadController::class, 'show'])->name('unidades.show');
 
 // Productos
-Route::get('productos', [ProductoController::class, 'index']);
-Route::get('productos/create', [ProductoController::class, 'create']);
-Route::get('productos/{producto}', [ProductoController::class, 'show']);
+Route::get('productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('productos/create', [ProductoController::class, 'create'])->name('productos.create');
+Route::get('productos/{id}', [ProductoController::class, 'show'])->name('productos.show');
+Route::post('productos', [ProductoController::class, 'store'])->name('productos.store');

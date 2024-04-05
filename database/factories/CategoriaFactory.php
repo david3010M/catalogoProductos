@@ -19,7 +19,7 @@ class CategoriaFactory extends Factory
     public function definition(): array
     {
         return [
-            'descripcion' => $this->faker->sentence(),
+            'descripcion' => $this->faker->randomElement(['Categoria 1', 'Categoria 2', 'Categoria 3', 'Categoria 4', 'Categoria 5']),
         ];
     }
 }

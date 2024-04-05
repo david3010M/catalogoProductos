@@ -8,4 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    // server: {
+    //     origin: 'http://192.168.18.51:5173'
+    // },
 });

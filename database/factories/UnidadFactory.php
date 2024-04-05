@@ -19,8 +19,8 @@ class UnidadFactory extends Factory
     public function definition(): array
     {
         return [
-            'descripcion' => $this->faker->sentence(),
-            'abreviatura' => $this->faker->word(2),
+            'descripcion' => $this->faker->randomElement(['unidad', 'kilogramo', 'litro', 'galon', 'caja']),
+            'abreviatura' => $this->faker->randomElement(['un.', 'kg.', 'lt.', 'gl.', 'cj.']),
         ];
     }
 }

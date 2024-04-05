@@ -20,7 +20,7 @@ class MarcaFactory extends Factory
     public function definition(): array
     {
         return [
-            'descripcion' => $this->faker->sentence(),
+            'descripcion' => $this->faker->randomElement(['Marca 1', 'Marca 2', 'Marca 3', 'Marca 4', 'Marca 5']),
         ];
     }
 }

@@ -17,9 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Marca::factory(10)->create();
-        Categoria::factory(10)->create();
-        Unidad::factory(5)->create();
+        $this->call([
+            MarcaSeeder::class,
+            CategoriaSeeder::class,
+            UnidadSeeder::class,
+        ]);
         Producto::factory(50)->create();
 
 
